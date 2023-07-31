@@ -21,7 +21,31 @@
                 </div>
             </nav>
         </header>
-        
+        <main class="d-flex" id="weatherContainer">
+            <section class="mx-3" id="columnLeft">
+                <form>
+                    <input class="mb-1" type="text" value="Enter a city here">
+                    <br>
+                    <input type="submit">
+                </form>
+                <hr>
+                <section id="pastSearches">
+                    Past searches appear here
+                </section>
+            </section>
+            <section class="mr-3" id="columnRight">
+                <section class="border border-3 rounded d-flex flex-column" id="currentWeather">
+                    <h2>City name and date</h2>
+                    <div>Temp:</div>
+                    <div>Wind:</div>
+                    <div>Humidity:</div>
+                </section>
+                <section>
+                    <h4>5 day forecast:</h4>
+                    <section id="fiveDayForecast"> 5 cards in a row listing the next 5 days weather</section>
+                </section>
+            </section>
+        </main>
         <script src="./assets/js/script.js" async defer></script>
     </body>
 </html>
