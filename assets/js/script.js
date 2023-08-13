@@ -13,8 +13,7 @@ submitForm.on("submit", function(event) {
 
 
 function fetchAllTheThings () {
-    cityText.val().trim();
-    let cityName = cityText.val();   
+    let cityName = cityText.val().trim();   
     const geoCodeAPI = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`
     fetch(geoCodeAPI)
     .then(function(response) {
