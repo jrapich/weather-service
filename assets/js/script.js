@@ -17,7 +17,7 @@ const fetchAllTheThings = async () =>{
     let geoCodeFetch = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`);
     geoCodeFetch = await geoCodeFetch.json();
     //call the weather forecast by lattitude and longitude
-    let weatherFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?lat=${geoCodeFetch[0].lat}&lon=${geoCodeFetch[0].lon}&appid=${apiKey}`);
+    let weatherFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${geoCodeFetch[0].lat}&lon=${geoCodeFetch[0].lon}&cnt=5&appid=${apiKey}`);
     weatherFetch = await weatherFetch.json();
     console.log(weatherFetch);
 }
