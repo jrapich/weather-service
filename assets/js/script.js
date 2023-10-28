@@ -25,7 +25,8 @@ const fetchAllTheThings = async () =>{
     console.log(currentFetch);
     console.log('weather forecast obj:');
     console.log(weatherFetch);
-    $('h2').text(currentFetch.name)
+    await $('h2').text(currentFetch.name)
+    .next().attr('src', `https://openweathermap.org/img/wn/${currentFetch.weather[0].icon}.png`)
     .next().text(`Temp: ${currentFetch.main.temp} F`)
     .next().text(`Wind: ${currentFetch.wind.speed}mph at ${currentFetch.wind.deg} degrees`)
     .next().text(`Humidity: ${currentFetch.main.humidity}%`);
