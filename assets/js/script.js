@@ -17,7 +17,16 @@ const fetchAllTheThings = async () =>{
     let geoCodeFetch = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`);
     geoCodeFetch = await geoCodeFetch.json();
     //call the weather forecast by lattitude and longitude
-    let weatherFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${geoCodeFetch[0].lat}&lon=${geoCodeFetch[0].lon}&cnt=5&appid=${apiKey}`);
+    let currentFetch = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${geoCodeFetch[0].lat}&lon=${geoCodeFetch[0].lon}&appid=${apiKey}&units=imperial`);
+    currentFetch = await currentFetch.json();
+    let weatherFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${geoCodeFetch[0].lat}&lon=${geoCodeFetch[0].lon}&appid=${apiKey}&units=imperial`);
     weatherFetch = await weatherFetch.json();
+    console.log('current weather obj:');
+    console.log(currentFetch);
+    console.log('weather forecast obj:');
     console.log(weatherFetch);
+    $('h2').text(currentFetch.name)
+    .next().text(`Temp: ${currentFetch.main.temp} F`)
+    .next().text(`Wind: ${currentFetch.wind.speed}mph at ${currentFetch.wind.deg} degrees`)
+    .next().text(`Humidity: ${currentFetch.main.humidity}%`);
 }
