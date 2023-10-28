@@ -10,29 +10,14 @@ submitForm.on("submit", function(event) {
     fetchAllTheThings();
 });
 
-
-function fetchAllTheThings () {
+//logic behind the API calls
+const fetchAllTheThings = async () =>{
+    //first we need to get the user provided city and get lat/long coordinates from that
     const cityName = cityText.val().trim();   
-    const geoCodeAPI = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`
-    fetch(geoCodeAPI)
-    .then(function(response) {
-        console.log(response);
-        return response.json();
-    })
-    .then(function(data) {
-        console.log(data);
-        const latitude = data[0].lat
-        const longitude = data[0].lon; 
-        console.log(`latitude is ${latitude}`);
-        console.log(`longitude is ${longitude}`);
-        const apiURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-        fetch(apiURL)
-        .then(function(response) {
-            console.log(response);
-            return response.json();
-        })
-        .then(function(data){
-            console.log(data);
-        })
-    })
+    let geoCodeFetch = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`);
+    geoCodeFetch = await geoCodeFetch.json();
+    //call the weather forecast by lattitude and longitude
+    let weatherFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${geoCodeFetch[0].lat}&lon=${geoCodeFetch[0].lon}&appid=${apiKey}`);
+    weatherFetch = await weatherFetch.json();
+    console.log(weatherFetch);
 }
