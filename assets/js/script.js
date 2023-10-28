@@ -1,7 +1,6 @@
 const apiKey = "590f0512a60e033b915bf85a1436336f";
-let cityText = $("#cityText");
-let submitForm = $("#submitForm");
-//const apiURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+const cityText = $("#cityText");
+const submitForm = $("#submitForm");
 
 
 //event listener for the submit button. submit the input city to openWeatherAPI, get back the lat/long
@@ -13,7 +12,7 @@ submitForm.on("submit", function(event) {
 
 
 function fetchAllTheThings () {
-    let cityName = cityText.val().trim();   
+    const cityName = cityText.val().trim();   
     const geoCodeAPI = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`
     fetch(geoCodeAPI)
     .then(function(response) {
@@ -22,8 +21,8 @@ function fetchAllTheThings () {
     })
     .then(function(data) {
         console.log(data);
-        let latitude = data[0].lat
-        let longitude = data[0].lon; 
+        const latitude = data[0].lat
+        const longitude = data[0].lon; 
         console.log(`latitude is ${latitude}`);
         console.log(`longitude is ${longitude}`);
         const apiURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
