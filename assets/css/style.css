@@ -2,3 +2,22 @@
     height: 30%;
     width: 30%;
 }
+
+@media screen and (max-width:1060px) {
+    #cityText {
+        width:120px;
+    }
+}
+
+@media only screen and (max-width:660px) {
+
+    #weatherContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #cardSpace {
+        flex-direction: column;
+    }
+}
