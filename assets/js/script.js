@@ -25,9 +25,42 @@ const fetchAllTheThings = async () =>{
     console.log(currentFetch);
     console.log('weather forecast obj:');
     console.log(weatherFetch);
+    //set the current weather fields to the values received from current weather API
     await $('h2').text(currentFetch.name)
     .next().attr('src', `https://openweathermap.org/img/wn/${currentFetch.weather[0].icon}.png`)
     .next().text(`Temp: ${currentFetch.main.temp} F`)
     .next().text(`Wind: ${currentFetch.wind.speed}mph at ${currentFetch.wind.deg} degrees`)
     .next().text(`Humidity: ${currentFetch.main.humidity}%`);
+    //add five cards to the page and fill them with forecasts for the next 5 days
+    addFiveCards(weatherFetch);
+}
+
+const addFiveCards = async ({city, count, code, list, message}) => {
+    //forecast weather data is stored in the list parameter, and is data for every 3 hours
+    //this sets an array of the data at noon for the next 5 days from now
+    const weatherFiveDay = [
+        list[2],
+        list[10],
+        list[18],
+        list[26],
+        list[34]
+    ];
+    
+
+    //the html we will write for each card
+    const cardHTML = (index) => {
+        let card = `
+        <div class="col flex-column border border-3 rounded" id="forecast${index}">
+            <h2>${city.name}</h2>
+            <img src="https://openweathermap.org/img/wn/${weatherFiveDay[index].weather[0].icon}.png">
+            <div>Temp: ${weatherFiveDay[index].main.temp} F</div>
+            <div>Wind: ${weatherFiveDay[index].wind.speed}mph at ${weatherFiveDay[index].wind.deg} degrees</div>
+            <div>Humidity: ${weatherFiveDay[index].main.humidity}%</div>
+        </div>
+        `;
+        return card;
+    }
+    for (let i = 0; i < weatherFiveDay.length; i++) {
+        $('#cardSpace').append(cardHTML(i));
+    }
 }
