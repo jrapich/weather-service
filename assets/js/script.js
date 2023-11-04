@@ -5,9 +5,10 @@ const submitForm = $("#submitForm");
 
 //event listener for the submit button. submit the input city to openWeatherAPI, get back the lat/long
 //then submit that to the 5 day forecast API, and display the results
-submitForm.on("submit", function(event) {
+submitForm.on("submit", async function(event) {
     event.preventDefault();
-    fetchAllTheThings();
+    await fetchAllTheThings();
+    renderPastSearches();
 });
 
 //logic behind the API calls
@@ -45,12 +46,15 @@ const addFiveCards = async ({city, count, code, list, message}) => {
         list[26],
         list[34]
     ];
+
+    //if 5 cards already exist, remove them before we append 5 more
+    $('.forecaster').remove();
     
 
     //the html we will write for each card
     const cardHTML = (index) => {
         let card = `
-        <div class="col flex-column border border-3 rounded" id="forecast${index}">
+        <div class="col flex-column border border-3 rounded forecaster" id="forecast${index}">
             <h2>${city.name}</h2>
             <img src="https://openweathermap.org/img/wn/${weatherFiveDay[index].weather[0].icon}.png">
             <div>Temp: ${weatherFiveDay[index].main.temp} F</div>
@@ -64,3 +68,33 @@ const addFiveCards = async ({city, count, code, list, message}) => {
         $('#cardSpace').append(cardHTML(i));
     }
 }
+
+const renderPastSearches = () => {
+    let storageSave = [];
+    if (!localStorage.getItem("pastCities")) {
+    if (cityText.val().trim() !== 'Enter a city here') {
+        storageSave[0]=cityText.val().trim();
+    }
+    localStorage.setItem("pastCities", JSON.stringify(storageSave));
+    } else {
+        storageSave=JSON.parse(localStorage.getItem("pastCities"));
+        if (cityText.val().trim() !== 'Enter a city here') {
+            storageSave[0]=cityText.val().trim();
+        }
+        if (storageSave.length > 5) {
+            storageSave.splice(0,1);
+        }
+        localStorage.setItem("pastCities", JSON.stringify(storageSave));
+    }
+    
+    let displayCities = "";
+    for (let i=0; i<storageSave.length; i++) {
+        displayCities +="<li>" + storageSave[i] + "</li>";
+    }
+
+    $(".searches").remove();
+    $('#pastSearches').append(displayCities);
+    $("li").attr("class", "searches");
+}
+
+renderPastSearches();
