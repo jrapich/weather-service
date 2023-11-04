@@ -50,7 +50,7 @@ const addFiveCards = async ({city, count, code, list, message}) => {
     $('.forecaster').remove();
     
 
-    //the html we will write for each card
+    //the html we will write for each weather card
     const cardHTML = (index) => {
         let card = `
         <div class="col flex-column border border-3 rounded forecaster" id="forecast${index}">
@@ -63,42 +63,54 @@ const addFiveCards = async ({city, count, code, list, message}) => {
         `;
         return card;
     }
+    //append each card to the page
     for (let i = 0; i < weatherFiveDay.length; i++) {
         $('#cardSpace').append(cardHTML(i));
     }
 }
 
 const renderPastSearches = () => {
+    //array we will move search data to/from local storage
     let storageSave = [];
+    //if our localstorage key doesnt exist, create it
     if (!localStorage.getItem("pastCities")) {
-    if (cityText.val().trim() !== 'Enter a city here') {
-        storageSave.push(cityText.val().trim());
-    }
-    localStorage.setItem("pastCities", JSON.stringify(storageSave));
-    } else {
-        storageSave=JSON.parse(localStorage.getItem("pastCities"));
+        //prevent saving the input field default text, to local storage
         if (cityText.val().trim() !== 'Enter a city here') {
             storageSave.push(cityText.val().trim());
         }
+        localStorage.setItem("pastCities", JSON.stringify(storageSave));
+    } else {
+        //parse the stored past searches array, add the latest search to it, and resave it to local storage 
+        storageSave=JSON.parse(localStorage.getItem("pastCities"));
+        //as above, prevent saving the default text to the array
+        if (cityText.val().trim() !== 'Enter a city here') {
+            storageSave.push(cityText.val().trim());
+        }
+        //splice out the oldest search from the array to keep the list of searches at 5 or less
         if (storageSave.length > 5) {
             storageSave.splice(0,1);
         }
         localStorage.setItem("pastCities", JSON.stringify(storageSave));
     }
     
+    //create an anchor tag for each search
     let displayCities = [];
     for (let i=0; i<storageSave.length; i++) {
         displayCities.push("<a class='searches'>" + storageSave[i] + "</a>");
     }
+    //reverse the order of the cities so the oldest search displays on top
     displayCities = displayCities.reverse();
     
 
+    //remove any old searches and readd the latest list of searches
     $(".searches").remove();
+    //since the search a tags from above are stored as an array, convert it to a string, and remove comments from the string, then append to page
     $('#pastSearches').append(displayCities.toString().replace(/,/g, ""));
     
     //event listener for the list of searches
     const allSearches  = document.querySelectorAll('.searches');
 
+    //will listen on every search on the page
     for (let j = 0; j < allSearches.length; j++) {
         allSearches[j].addEventListener('click', async (event) => {
             event.preventDefault();
@@ -107,5 +119,5 @@ const renderPastSearches = () => {
         });
     }
 }   
-
+//call this function here to display any past searches on page load
 renderPastSearches();
