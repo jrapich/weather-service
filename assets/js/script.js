@@ -7,14 +7,13 @@ const submitForm = $("#submitForm");
 //then submit that to the 5 day forecast API, and display the results
 submitForm.on("submit", async function(event) {
     event.preventDefault();
-    await fetchAllTheThings();
+    await fetchAllTheThings(cityText.val().trim());
     renderPastSearches();
 });
 
 //logic behind the API calls
-const fetchAllTheThings = async () =>{
+const fetchAllTheThings = async (cityName) =>{
     //first we need to get the user provided city and get lat/long coordinates from that
-    const cityName = cityText.val().trim();   
     let geoCodeFetch = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`);
     geoCodeFetch = await geoCodeFetch.json();
     //call the weather forecast by lattitude and longitude
@@ -89,12 +88,24 @@ const renderPastSearches = () => {
     
     let displayCities = [];
     for (let i=0; i<storageSave.length; i++) {
-        displayCities.push("<div class='searches'>" + storageSave[i] + "</div>");
+        displayCities.push("<a class='searches'>" + storageSave[i] + "</a>");
     }
     displayCities = displayCities.reverse();
+    
 
     $(".searches").remove();
     $('#pastSearches').append(displayCities.toString().replace(/,/g, ""));
-}
+    
+    //event listener for the list of searches
+    const allSearches  = document.querySelectorAll('.searches');
+
+    for (let j = 0; j < allSearches.length; j++) {
+        allSearches[j].addEventListener('click', async (event) => {
+            event.preventDefault();
+            await fetchAllTheThings(allSearches[j].textContent);
+            renderPastSearches();
+        });
+    }
+}   
 
 renderPastSearches();
