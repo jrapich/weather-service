@@ -89,13 +89,12 @@ const renderPastSearches = () => {
     
     let displayCities = [];
     for (let i=0; i<storageSave.length; i++) {
-        displayCities.push("<li>" + storageSave[i] + "</li>");
+        displayCities.push("<div class='searches'>" + storageSave[i] + "</div>");
     }
     displayCities = displayCities.reverse();
 
     $(".searches").remove();
     $('#pastSearches').append(displayCities.toString().replace(/,/g, ""));
-    $("li").attr("class", "searches");
 }
 
 renderPastSearches();
