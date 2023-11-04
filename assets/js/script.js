@@ -82,7 +82,7 @@ const renderPastSearches = () => {
             storageSave[0]=cityText.val().trim();
         }
         if (storageSave.length > 5) {
-            storageSave.splice(0,1);
+            storageSave.splice(0,4);
         }
         localStorage.setItem("pastCities", JSON.stringify(storageSave));
     }
