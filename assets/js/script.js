@@ -73,27 +73,28 @@ const renderPastSearches = () => {
     let storageSave = [];
     if (!localStorage.getItem("pastCities")) {
     if (cityText.val().trim() !== 'Enter a city here') {
-        storageSave[0]=cityText.val().trim();
+        storageSave.push(cityText.val().trim());
     }
     localStorage.setItem("pastCities", JSON.stringify(storageSave));
     } else {
         storageSave=JSON.parse(localStorage.getItem("pastCities"));
         if (cityText.val().trim() !== 'Enter a city here') {
-            storageSave[0]=cityText.val().trim();
+            storageSave.push(cityText.val().trim());
         }
         if (storageSave.length > 5) {
-            storageSave.splice(0,4);
+            storageSave.splice(0,1);
         }
         localStorage.setItem("pastCities", JSON.stringify(storageSave));
     }
     
-    let displayCities = "";
+    let displayCities = [];
     for (let i=0; i<storageSave.length; i++) {
-        displayCities +="<li>" + storageSave[i] + "</li>";
+        displayCities.push("<li>" + storageSave[i] + "</li>");
     }
+    displayCities = displayCities.reverse();
 
     $(".searches").remove();
-    $('#pastSearches').append(displayCities);
+    $('#pastSearches').append(displayCities.toString().replace(/,/g, ""));
     $("li").attr("class", "searches");
 }
 
