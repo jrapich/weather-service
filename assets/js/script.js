@@ -27,7 +27,7 @@ const fetchAllTheThings = async () =>{
     console.log('weather forecast obj:');
     console.log(weatherFetch);
     //set the current weather fields to the values received from current weather API
-    await $('h2').text(currentFetch.name)
+    await $('h2').text(`Today's weather in ${currentFetch.name}`)
     .next().attr('src', `https://openweathermap.org/img/wn/${currentFetch.weather[0].icon}.png`)
     .next().text(`Temp: ${currentFetch.main.temp} F`)
     .next().text(`Wind: ${currentFetch.wind.speed}mph at ${currentFetch.wind.deg} degrees`)
@@ -55,7 +55,7 @@ const addFiveCards = async ({city, count, code, list, message}) => {
     const cardHTML = (index) => {
         let card = `
         <div class="col flex-column border border-3 rounded forecaster" id="forecast${index}">
-            <h2>${city.name}</h2>
+            <h3>Weather in ${city.name} ${index+1} days from now.</h3>
             <img src="https://openweathermap.org/img/wn/${weatherFiveDay[index].weather[0].icon}.png">
             <div>Temp: ${weatherFiveDay[index].main.temp} F</div>
             <div>Wind: ${weatherFiveDay[index].wind.speed}mph at ${weatherFiveDay[index].wind.deg} degrees</div>
