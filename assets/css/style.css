@@ -3,6 +3,10 @@
     width: 30%;
 }
 
+.searches:hover {
+    cursor: pointer;
+}
+
 @media screen and (max-width:1060px) {
     #cityText {
         width:120px;
