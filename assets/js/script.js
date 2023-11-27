@@ -14,7 +14,7 @@ submitForm.on("submit", async function(event) {
 //logic behind the API calls
 const fetchAllTheThings = async (cityName) =>{
     //first we need to get the user provided city and get lat/long coordinates from that
-    let geoCodeFetch = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`);
+    let geoCodeFetch = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`);
     geoCodeFetch = await geoCodeFetch.json();
     //call the weather forecast by lattitude and longitude
     let currentFetch = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${geoCodeFetch[0].lat}&lon=${geoCodeFetch[0].lon}&appid=${apiKey}&units=imperial`);
